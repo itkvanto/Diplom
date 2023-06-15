@@ -3,7 +3,7 @@ from telebot import types, TeleBot
 from translation import get_word_example,get_word_translation
 from database import create_words_table,fill_database_with_common_words,get_random_word,get_word_count,add_word,get_word_by_text,delete_word
 
-# Инициализация бота и базы данных
+# Инициализация бота
 token_bot = '6146509546:AAH0xcX9Fs4C3IOIo1K_PxixgsQkBoR8pxE'
 bot = TeleBot(token_bot)
 
@@ -12,8 +12,8 @@ bot = TeleBot(token_bot)
 @bot.message_handler(commands=['start'])
 def start(message):
     cid = message.chat.id
-    bot.send_message(cid, "Привет 👋 Давай попрактикуемся в английском языке. Тренировки можешь проходить в удобном для себя темпе. Причём у тебя есть возможность использовать тренажёр как конструктор и собирать свою собственную базу для обучения. Для этого воспрользуйся инструментами Добавить слово➕ или Удалить слово🔙. Ну что, начнём ⬇️")
-    create_words_table()
+    bot.send_message(cid, """Привет 👋 Давай попрактикуемся в английском языке. Тренировки можешь проходить в удобном для себя темпе. \nПричём у тебя есть возможность использовать тренажёр как конструктор и собирать свою собственную базу для обучения. \nДля этого воспрользуйся командами в меню.\nНу что, начнём ⬇️""")
+    create_words_table(cid)
     fill_database_with_common_words(cid)
     userStep[cid] = 0
     ask_question(cid)
@@ -21,7 +21,7 @@ def start(message):
 @bot.message_handler(commands=['game'])
 def game(message):
     cid = message.chat.id
-    create_words_table()
+    create_words_table(cid)
     userStep[cid] = 0
     ask_question(cid)
 
@@ -81,7 +81,7 @@ def add_word_command(message):
 @bot.message_handler(func=lambda message: get_user_step(message.chat.id) == 1)
 def save_new_word(message):
     user_id = message.chat.id
-    word = message.text.strip()
+    word = message.text.strip().lower()
 
 
     translation = get_word_translation(word)
@@ -108,7 +108,7 @@ def delete_word_command(message):
 @bot.message_handler(func=lambda message: get_user_step(message.chat.id) == 2)
 def delete_word_by_text(message):
     user_id = message.chat.id
-    word = message.text.strip()
+    word = message.text.strip().lower()
 
     word_data = get_word_by_text(user_id, word)
     if word_data:

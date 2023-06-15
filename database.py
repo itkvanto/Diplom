@@ -1,6 +1,7 @@
 import psycopg2
 from psycopg2 import Error
 
+# Инициализация базы данных
 db_name = 'diplom'
 db_user = 'postgres'
 db_password = '1456'
@@ -23,7 +24,7 @@ def create_words_table(user_id):
     if connection:
         try:
             cursor = connection.cursor()
-            create_table_query = f'''CREATE TABLE IF NOT EXISTS {user_id}
+            create_table_query = f'''CREATE TABLE IF NOT EXISTS t{user_id}
                                     (id SERIAL PRIMARY KEY,
                                     user_id INTEGER,
                                     word TEXT,
@@ -57,7 +58,7 @@ def fill_database_with_common_words(user_id):
         try:
             cursor = connection.cursor()
             for word, translation, example in common_words:
-                insert_query = f"INSERT INTO words (user_id, word, translation, example) VALUES ({user_id}, '{word}', '{translation}', '{example}');"
+                insert_query = f"INSERT INTO t{user_id} (user_id, word, translation, example) VALUES ({user_id}, '{word}', '{translation}', '{example}');"
                 cursor.execute(insert_query)
             connection.commit()
             cursor.close()
@@ -72,7 +73,7 @@ def get_random_word(user_id):
         print('connect random')
         try:
             cursor = connection.cursor()
-            select_query = f"SELECT * FROM words WHERE user_id = {int(user_id)} ORDER BY random() LIMIT 1;"
+            select_query = f"SELECT * FROM t{user_id} WHERE user_id = {int(user_id)} ORDER BY random() LIMIT 1;"
 
             cursor.execute(select_query)
             word_data = cursor.fetchone()
@@ -96,7 +97,7 @@ def add_word(user_id, word, translation, example):
         try:
             cursor = connection.cursor()
             example = example.replace("'", "")
-            insert_query = f"INSERT INTO words (user_id, word, translation, example) VALUES ({user_id}, '{word}', '{translation}', '{example}');"
+            insert_query = f"INSERT INTO t{user_id} (user_id, word, translation, example) VALUES ({user_id}, '{word}', '{translation}', '{example}');"
             cursor.execute(insert_query)
             connection.commit()
             cursor.close()
@@ -111,7 +112,7 @@ def delete_word(user_id, word_id):
     if connection:
         try:
             cursor = connection.cursor()
-            delete_query = f"DELETE FROM words WHERE user_id = {user_id} AND id = {word_id};"
+            delete_query = f"DELETE FROM t{user_id} WHERE user_id = {user_id} AND id = {word_id};"
             cursor.execute(delete_query)
             connection.commit()
             cursor.close()
@@ -124,7 +125,7 @@ def get_word_by_text(user_id, word):
     if connection:
         try:
             cursor = connection.cursor()
-            select_query = f"SELECT * FROM words WHERE user_id = {user_id} AND word = %s;"
+            select_query = f"SELECT * FROM t{user_id} WHERE user_id = {user_id} AND word = %s;"
             cursor.execute(select_query, (word,))
             word_data = cursor.fetchone()
             cursor.close()
@@ -141,7 +142,7 @@ def get_word_count(user_id):
     if connection:
         try:
             cursor = connection.cursor()
-            count_query = f"SELECT COUNT(*) FROM words WHERE user_id = {user_id};"
+            count_query = f"SELECT COUNT(*) FROM t{user_id} WHERE user_id = {user_id};"
             cursor.execute(count_query)
             word_count = cursor.fetchone()[0]
             cursor.close()
