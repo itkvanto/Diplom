@@ -4,7 +4,7 @@ from translation import get_word_example,get_word_translation
 from database import create_words_table,fill_database_with_common_words,get_random_word,get_word_count,add_word,get_word_by_text,delete_word
 
 # Инициализация бота
-token_bot = '6146509546:AAH0xcX9Fs4C3IOIo1K_PxixgsQkBoR8pxE'
+token_bot = ''
 bot = TeleBot(token_bot)
 
 

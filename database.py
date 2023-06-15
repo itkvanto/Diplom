@@ -3,8 +3,8 @@ from psycopg2 import Error
 
 # Инициализация базы данных
 db_name = 'diplom'
-db_user = 'postgres'
-db_password = '1456'
+db_user = ''
+db_password = ''
 
 # Функция подключения к базе данных
 def connect_database():

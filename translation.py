@@ -2,8 +2,8 @@ import requests
 
 # Функция получения перевода слова через Yandex API
 def get_word_translation(word):
-    IAM_TOKEN = 't1.9euelZqWmpKJnomNyZWemZXKxp2Xzu3rnpWanMePksrMjZPOip7GycqLjJvl8_cFflRb-e9WHQ0Y_t3z90UsUlv571YdDRj-zef1656Vmp7KkJCJl5fIz4-Px8yZnpCN7_zF656Vmp7KkJCJl5fIz4-Px8yZnpCN.O8Yl1XatAO7pfISEhJ8Sjcct6YnElNJgdZ3mBrTS3rFOjNa9eOcUUJlrt7iiLy3EOm56lD7NcsO48IAbnS_IBw'
-    folder_id = 'b1g0q0t9a3q8j1mioom9'
+    IAM_TOKEN = ''
+    folder_id = ''
     target_language = 'ru'
 
     body = {
