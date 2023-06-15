@@ -2,8 +2,8 @@ import psycopg2
 from psycopg2 import Error
 
 db_name = 'diplom'
-db_user = 'postgres'
-db_password = '1456'
+db_user = ''
+db_password = ''
 
 # Функция подключения к базе данных
 def connect_database():
